@@ -6,6 +6,10 @@ import urllib
 import json
 import itertools
 
+import Queue
+import threading
+import time
+
 def get_IP_address(session):
     url = 'https://api.ipify.org?format=json'
     r   = session.get(url)
@@ -89,7 +93,9 @@ class tor_request_pool(object):
             port = PORT_START + k
             args.append( (port, local_storage) )
 
-        ITR = itertools.imap(_generate_tor_req, args)        
+        ITR = itertools.imap(_generate_tor_req, args)
+        self.Q = Queue.Queue()
+        self.result = Queue.Queue()
         
         for k,proc in enumerate(ITR):
             self.T.append(proc)
@@ -98,6 +104,37 @@ class tor_request_pool(object):
 
     def get(self, url, params=None):
         return self.workers.next().get(url, params)
+
+    def put(self,url,params=None):
+        self.Q.put((url,params))
+
+    def session_worker(self, queue):
+        queue_full = True
+        while queue_full:
+            try:
+                # get your data off the queue, and do some work
+                url,params = self.Q.get(False)
+                data = self.get(url,params)
+                self.result.put(data)
+            except Queue.Empty:
+                queue_full = False
+
+    def download_queue(self):
+        thread_count = len(self.T)
+        for _ in range(thread_count):
+            t = threading.Thread(target=self.session_worker,
+                                 args=(self.Q,))
+            t.start()
+
+    def __iter__(self):
+        self.download_queue()
+        while not self.Q.empty():
+            time.sleep(0.1)
+            while not self.result.empty():
+                yield self.result.get()
+        while not self.result.empty():
+            yield self.result.get()
+
 
 _local_session = requesocks.session()
 _local_IP      = get_IP_address(_local_session)
