@@ -10,3 +10,6 @@ def clean():
 def push():
     local("git commit -a")
     local("git push")
+
+# Alias for development
+def commit(): push()
