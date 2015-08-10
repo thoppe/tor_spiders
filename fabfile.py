@@ -5,7 +5,7 @@ def reset():
     
 def clean():
     local("find . -name *.pyc | xargs -I {} rm -vf {}")
-    local("find . -name *~ | xargs -I {} rm -vf {}")
+    local("find . -name *~    | xargs -I {} rm -vf {}")
 
     
 #db          fabfile.pyc         proxy_0  proxy_3  requirements.txt
