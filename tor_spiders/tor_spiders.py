@@ -1,5 +1,5 @@
-import stem
 from stem.util import term as XTERM
+import stem.process
 
 import requesocks
 import urllib
@@ -98,8 +98,6 @@ class tor_request_pool(object):
 
     def get(self, url, params=None):
         return self.workers.next().get(url, params)
-
-
 
 _local_session = requesocks.session()
 _local_IP      = get_IP_address(_local_session)
