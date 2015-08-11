@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Tor spiders</title>
+    
+    <meta name="description" content="">
+    <meta name="author" content="Travis Hoppe">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" 
+	  content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, 
+				   initial-scale=1.0, 
+				   maximum-scale=1.0, 
+				   user-scalable=no">
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+
+    <!-- Default themes -->
+    <link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme">
+    <link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+    <!-- For LaTeX formating highlighting -->
+    <link rel="stylesheet" href="md2reveal/css/md2reveal_style.css">
+
+    <!--[if lt IE 9]>
+	<script src="reveal.js/lib/js/html5shiv.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal"><div class="slides">
+	<section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h1>Tor Spiders</h1><em>(five minute hack-and-tell version)</em></p>
+<br>
+<p>
+<strong><a href="http://thoppe.github.io/">Travis Hoppe</a></strong></p>
+<hr>
+<p>
+<a href="https://github.com/thoppe/tor_spiders">https://github.com/thoppe/tor_spiders</a></p>
+</section>
+</section><section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h1>The darknet</h1><em>sounds scary!</em></p>
+<br>
+<p>
+The darknet is anything you can't traditionally "see" on the Internet.<br>If you can type it into your browser, it's probably not on the darknet.<div class="fragment"><br></p>
+<br>
+<p>
+<h2>Illegal?</h2><em>Can be.</em></p>
+<br>
+<p>
+Since it's a "back-alley" of the Internet you'll find all sorts<br>of shady characters (ex. Silk Road, pornography, political dissidents).<br></div></p>
+</section><section   class="vertical-slide">
+<p>
+<h1>Anonymity</h1></p>
+<br>
+<p>
+Key feature of the darknet. Your IP isn't linked to you anymore.</p>
+<br>
+<p>
+<h3>Tor (The Onion Router)</h3><div style="footnote"></p>
+<blockquote>... is implemented by encryption in the application layer of a communication protocol stack, nested like the layers of an onion. Tor encrypts the data, including the destination IP address, multiple times and sends it through a virtual circuit comprising successive, randomly selected Tor relays. Each relay decrypts a layer of encryption to reveal only the next relay in the circuit in order to pass the remaining encrypted data on to it. The final relay decrypts the innermost layer of encryption and sends the original data to its destination without revealing, or even knowing, the source IP address.</blockquote>
+<p>
+</div></p>
+</section>
+</section><section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h3>(hypothetically) Let's say you've been IP banned</h3><h3>making too many requests to LinkedIn's frontpage.</h3><em>funny story...</em><div class="fragment"><br></p>
+<br>
+<br>
+<br>
+<p>
+Use Tor to create a fake identify to connect and continue browsing.<br>Python module <a href="https://stem.torproject.org/">stem</a> does all the heavy lifting.</p>
+<br>
+<br>
+<br>
+<p>
+<h2>Can we do better?</h2></div></p>
+</section>
+</section><section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h2>Tor Spiders</h2><a href="https://github.com/thoppe/tor_spiders">https://github.com/thoppe/tor_spiders</a><br><code>pip install git+git://github.com/thoppe/tor_spiders</code></p>
+<br>
+<br>
+<p>
+Uses python's <code>threading</code> module (I know, not multiprocessing!) to create simultaneous Tor connections to spider a queue of urls.</p>
+</section><section   class="vertical-slide">
+<p>
+<h3>Example</h3></p>
+<pre><code class=python>from tor_spiders import tor_request_pool
+
+T = tor_request_pool(2)
+url = 'https://api.ipify.org?format=json'
+    
+for x in range(10):
+    T.put(url)
+
+for r in T:
+    print r.text</code></pre>
+<br>
+<p>
+<h3>Output:</h3></p>
+<pre><code class=python>{&quot;ip&quot;:&quot;176.126.252.12&quot;}
+{&quot;ip&quot;:&quot;146.0.32.144&quot;}
+{&quot;ip&quot;:&quot;176.126.252.12&quot;}
+{&quot;ip&quot;:&quot;176.126.252.12&quot;}
+{&quot;ip&quot;:&quot;176.126.252.12&quot;}
+{&quot;ip&quot;:&quot;146.0.32.144&quot;}
+{&quot;ip&quot;:&quot;176.126.252.12&quot;}
+{&quot;ip&quot;:&quot;146.0.32.144&quot;}
+{&quot;ip&quot;:&quot;146.0.32.144&quot;}
+{&quot;ip&quot;:&quot;146.0.32.144&quot;}</code></pre>
+</section>
+</section><section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h3>What can you do with it?</h3></p>
+<br>
+<p>
+<h4>Spidering</h4>Silently spider a website without leaving trace to your real location.</p>
+<br>
+<p>
+<h4>Access control</h4>Circumvent IP range blocks<br>(sometimes locations are mapped to same IP address)</p>
+<br>
+<p>
+<h4>Censorship detection</h4>Download a website and see if the country of origin changes it.</p>
+</section>
+</section><section class="vertical-stack">
+<section   class="vertical-slide">
+<p>
+<h1>Thanks you!</h1></p>
+<br>
+<p>
+<div style="footnote"><br>I'm looking for a hardware hacker for a martial arts project.<br>Got skills? Let's talk! <strong>travis.hoppe @ gmail.com</strong><br></div></p>
+</section>
+</section>
+    </div></div>
+
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      overview: true, height: 900, keyboard: true, touch: true, hideAddressBar: true, rollingLinks: false, mouseWheel: true, controls: false, width: 1200, viewDistance: 3, rtl: false, progress: true, fragments: true, autoSlide: 0, autoSlideStoppable: true, backgroundtransition: "default", transitionSpeed: "default", slideNumber: true, center: true, embedded: true, transition: "default", maxScale: 1.2, minScale: 0.2, previewLinks: false, margin: 0.05, loop: false, history: true, 
+      
+      theme: Reveal.getQueryHash().theme, 
+      // available themes are in reveal.js/css/theme
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [ { src: 'reveal.js/lib/js/classList.js', condition: function() { 
+    return !document.body.classList; } },
+
+{ src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { 
+    return !!document.querySelector( '[data-markdown]' ); } },
+
+{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { 
+    return !!document.querySelector( '[data-markdown]' ); } },
+
+{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: 
+  function() { hljs.initHighlightingOnLoad(); } },
+
+{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: 
+  function() { return !!document.body.classList; } },
+ ]
+
+      });
+    </script>
+
+  </body>
+</html>
