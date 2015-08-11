@@ -1,5 +1,5 @@
-# Code Linguistics public presentations
+# Tor Spider public presentations
 
-This branch is for the public presentations of the [code linguistics](https://github.com/thoppe/code-linguistics) project.
+This branch is for the public presentations of the [Tor spiders](https://github.com/thoppe/tor_spiders) project.
 
-+ ***[DC Hack and Tell Round 18: Ternary Bits](http://www.meetup.com/DC-Hack-and-Tell/events/220231708/)***, March 17, 2015, [presentation link](http://thoppe.github.io/code-linguistics/HnC_presentation.html).
++ ***[DC Hack and Tell Round 23: Bucolic Plague](http://www.meetup.com/DC-Hack-and-Tell/events/220231769/)***, August 11, 2015, [presentation link](http://thoppe.github.io/tor-spiders/HnC_presentation.html).
