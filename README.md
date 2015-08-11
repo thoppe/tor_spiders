@@ -36,5 +36,8 @@ Fill up the internal queue with `.put` and the results will begin downloading wh
 Internally threading is used to allow simultaneous connections. 
 The results are stored in a `requests` like object.
 
+# Presentations
+
++ ***[DC Hack and Tell Round 23: Bucolic Plague](http://www.meetup.com/DC-Hack-and-Tell/events/220231769/)***, August 11, 2015, [presentation link](http://thoppe.github.io/tor_spiders/HnC_presentation.html).
 
 [1]: https://en.wikipedia.org/wiki/Tor_(anonymity_network)
