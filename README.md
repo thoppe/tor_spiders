@@ -15,6 +15,11 @@ This is perfect for creating a small batches of agents to spider data from the w
 
     pip install git+git://github.com/thoppe/tor_spiders
 
+You'll need to install Tor and stop the normal service (Ubuntu instructions below):
+
+    sudo apt-get install tor
+    sudo service tor stop
+
 ## Usage
 
 ``` python
