@@ -1,7 +1,7 @@
 from stem.util import term as XTERM
 import stem.process
 
-import requesocks
+import requests
 import urllib
 import json
 import itertools
@@ -27,8 +27,8 @@ class tor_session(object):
         self.DIR  = DATA_DIRECTORY
 
         #Use Tor for both HTTP and HTTPS
-        self.session = requesocks.session()
-
+        self.session = requests.session()
+        
         socks_proxy  = 'socks5://localhost:{}'.format(self.PORT)
         self.session.proxies = {"http" :socks_proxy,
                                 "https":socks_proxy}
@@ -136,5 +136,5 @@ class tor_request_pool(object):
             yield self.result.get()
 
 
-_local_session = requesocks.session()
+_local_session = requests.session()
 _local_IP      = get_IP_address(_local_session)
